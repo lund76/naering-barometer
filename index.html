@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Næring — Fremdriftsbarometer</title>
+  <style>
+    :root {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #23342a;
+      background: #f5f1e8;
+      line-height: 1.55;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main {
+      max-width: 46rem;
+      margin: 0 auto;
+      padding: clamp(1.25rem, 5vw, 3rem);
+    }
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .brand-dot {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 0.5rem;
+      background: #234b37;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #234b37;
+      font-size: 1.05rem;
+      line-height: 1.2;
+    }
+    .brand-sub {
+      font-size: 0.8rem;
+      color: #5c6d62;
+    }
+    .lang-btn {
+      background: #fffdf9;
+      border: 1px solid #cfc7b8;
+      color: #23342a;
+      padding: 0.4rem 0.85rem;
+      border-radius: 0.4rem;
+      font: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .lang-btn:hover { background: #ebe5d8; }
+    h1 { line-height: 1.15; margin: 0.6rem 0 0.75rem; font-size: clamp(1.65rem, 4.2vw, 2.25rem); }
+    h2 { font-size: 1.3rem; margin: 2.25rem 0 0.35rem; color: #23342a; }
+    h3 { font-size: 1.05rem; margin: 0.25rem 0 0.35rem; }
+    .lead { color: #3d4f44; margin: 0 0 1.5rem; font-size: 1.02rem; }
+    .section-sub { color: #5c6d62; font-size: 0.9rem; margin: 0 0 1.1rem; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: #dce8e0;
+      color: #234b37;
+      font-weight: 600;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-top: 0.25rem;
+    }
+    .pulse {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: #234b37;
+    }
+    .meter-card, .gate-card, .future {
+      background: #fffdf9;
+      border: 1px solid #d8d1c5;
+      border-radius: 0.75rem;
+      padding: clamp(1.1rem, 3.5vw, 1.5rem);
+      box-shadow: 0 2px 8px rgba(35, 52, 42, 0.05);
+    }
+    .meter-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.9rem;
+    }
+    .meter-kicker {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #5c6d62;
+    }
+    .meter-headline {
+      font-size: 1.25rem;
+      color: #234b37;
+    }
+    .pct-pill {
+      background: #234b37;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+    }
+    .meter-track {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.35rem;
+      height: 0.95rem;
+    }
+    .seg { border-radius: 0.25rem; background: #e3ddd2; }
+    .seg.done { background: #234b37; }
+    .seg.active { background: #b7791f; }
+    .meter-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.8rem;
+      font-size: 0.84rem;
+      color: #495a4f;
+    }
+    .dot {
+      display: inline-block;
+      width: 0.65rem;
+      height: 0.65rem;
+      border-radius: 50%;
+      margin-right: 0.3rem;
+      vertical-align: middle;
+    }
+    .dot.done { background: #234b37; }
+    .dot.active { background: #b7791f; }
+    .dot.todo { background: #d8d1c5; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+      gap: 0.75rem;
+      margin-top: 1.1rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid #e6e0d4;
+    }
+    .stat-box {
+      background: #f8f5ee;
+      border: 1px solid #e3ddd2;
+      border-radius: 0.55rem;
+      padding: 0.75rem 0.9rem;
+    }
+    .stat-label { font-size: 0.78rem; color: #5c6d62; }
+    .stat-value { font-size: 0.95rem; font-weight: 700; color: #23342a; margin-top: 0.15rem; }
+    .stat-value.active-text { color: #92400e; }
+    .timeline {
+      position: relative;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.9rem;
+    }
+    .step {
+      display: flex;
+      gap: 0.95rem;
+      background: #fffdf9;
+      border: 1px solid #d8d1c5;
+      border-radius: 0.75rem;
+      padding: 1.05rem 1.15rem;
+      box-shadow: 0 1px 4px rgba(35, 52, 42, 0.03);
+    }
+    .step.active {
+      border: 2px solid #b7791f;
+      background: #fffaf0;
+    }
+    .step-marker {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      background: #e3ddd2;
+      color: #23342a;
+      margin-top: 0.1rem;
+    }
+    .step.done .step-marker { background: #234b37; color: #fff; }
+    .step.active .step-marker { background: #b7791f; color: #fff; }
+    .step-body { flex: 1; min-width: 0; }
+    .step-body p { margin: 0; color: #3d4f44; font-size: 0.94rem; }
+    .step-detail { margin-top: 0.35rem !important; font-size: 0.84rem !important; color: #5c6d62 !important; }
+    .step-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: #5c6d62;
+    }
+    .pill {
+      padding: 0.12rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.76rem;
+    }
+    .pill.done { background: #dce8e0; color: #234b37; }
+    .pill.active { background: #fef3c7; color: #92400e; }
+    .pill.todo { background: #ece7dd; color: #495a4f; }
+    .future { margin-top: 2.25rem; }
+    .future-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      gap: 0.75rem;
+    }
+    .future-item {
+      background: #f8f5ee;
+      border: 1px solid #e3ddd2;
+      border-radius: 0.55rem;
+      padding: 0.8rem 0.95rem;
+      font-size: 0.88rem;
+      color: #23342a;
+    }
+    .action {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.65rem;
+      padding: 0 1.15rem;
+      border: 1px solid transparent;
+      border-radius: 0.4rem;
+      background: #234b37;
+      color: white;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .unlock-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+    input[type="password"] {
+      flex: 1;
+      min-width: 12rem;
+      max-width: 18rem;
+      min-height: 2.65rem;
+      padding: 0 0.8rem;
+      border: 1px solid #94a39a;
+      border-radius: 0.4rem;
+      font: inherit;
+    }
+    .error { color: #8c1d18; font-weight: 600; margin-top: 0.65rem; }
+    :focus-visible { outline: 3px solid #234b37; outline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div id="gate" class="gate-card" style="margin-top:1rem;">
+      <div class="brand-wrap" style="margin-bottom:0.75rem;">
+        <span class="brand-dot" aria-hidden="true">N</span>
+        <div>
+          <div class="brand">Næring</div>
+          <div class="brand-sub">Fremdriftsbarometer</div>
+        </div>
+      </div>
+      <h1>Indtast adgangskode</h1>
+      <p>Denne statusside åbnes med dit personlige link (<code>?code=...</code>) eller ved at indtaste koden herunder:</p>
+      <form id="unlock-form">
+        <div class="unlock-row">
+          <input id="code-input" type="password" placeholder="Adgangskode" aria-label="Adgangskode" required />
+          <button type="submit" class="action">Åbn barometer</button>
+        </div>
+        <p id="error-msg" class="error" hidden>Forkert kode. Tjek linket og prøv igen.</p>
+      </form>
+    </div>
+    <div id="app" hidden></div>
+  </main>
+  <script>
+    const SALT = "wDJ30L/L1BvDEi+YKlgxHg==";
+    const IV = "XPyPjTWKG6hs4xNb";
+    const CIPHERTEXT = "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";
+
+    const I18N = {
+      da: {
+        langBtn: "English",
+        brandSub: "Husstandens madplan & indkøb",
+        badge: "Opdateret 8. november 2026",
+        title: "Næring — Fremdriftsbarometer",
+        lead: "Fra den tidlige Madseddel-prototype til vores rigtige husstands-app. Her er et overblik over, hvad vi allerede har bygget og godkendt, og hvad der mangler før vi kan tage den i brug sammen på telefon og tablet.",
+        meterKicker: "STATUS PÅ FØRSTE UDGAVE (MVP)",
+        meterHeadline: "5 af 6 funktioner er færdige (83 %)",
+        legendDone: "Færdig & godkendt (5)",
+        legendActive: "I gang i dag (1)",
+        legendTodo: "Sidste trin før brug (1)",
+        stat1Label: "Senest færdiggjort",
+        stat1Value: "S-04 Smart indkøbsliste",
+        stat2Label: "I gang lige nu",
+        stat2Value: "S-05 Åbn opskrift fra plan",
+        stat3Label: "Kvalitetssikring",
+        stat3Value: "65 automatiske tests bestået",
+        timelineHeading: "Tidslinje: Hvad vi har nået & hvad der kommer",
+        timelineSub: "Hvert trin testes med to separate voksen-logins på både telefon- og tablet-skærmstørrelse.",
+        futureHeading: "Gemt til næste runde (efter vi har taget appen i brug)",
+        futureSub: "Vi holder første udgave enkel, så vi hurtigt kan få glæde af den i hverdagen. Disse ønsker venter til bagefter:",
+        steps: [
+          {
+            date: "5. nov 2026",
+            status: "done",
+            pill: "Færdig",
+            title: "0. Fundament: Sikker sky-database (Azure SQL)",
+            summary: "Krypteret database i skyen, så vores opskrifter, madplaner og indkøbslister gemmes sikkert.",
+            detail: "Sikrer at alt vi gemmer huskes på tværs af vores telefoner, tablet og computer."
+          },
+          {
+            date: "6.–7. nov 2026",
+            status: "done",
+            pill: "Færdig",
+            title: "S-01: Vores fælles husstand & privat login",
+            summary: "Vi logger ind hver for sig med engangskode på e-mail og deler automatisk samme husstand.",
+            detail: "Kun vi to har adgang — ingen udefrakommende kan se eller ændre vores madplan eller opskrifter."
+          },
+          {
+            date: "7. nov 2026",
+            status: "done",
+            pill: "Færdig",
+            title: "S-02: Startopskrifter & egne familieopskrifter",
+            summary: "Gennemse startopskrifter og opret vores egne opskrifter med ingredienser, mængder og trin.",
+            detail: "Når én af os gemmer en ny opskrift, kan den anden straks se og bruge den."
+          },
+          {
+            date: "7. nov 2026",
+            status: "done",
+            pill: "Færdig",
+            title: "S-03: Ugens madplan (Mandag–Søndag)",
+            summary: "Vælg uge, sæt aftensmad på ugens dage, og tilpas antal portioner.",
+            detail: "Begge voksne kan planlægge, ændre eller fjerne en middag og se planen med det samme."
+          },
+          {
+            date: "8. nov 2026",
+            status: "done",
+            pill: "Færdig i dag!",
+            title: "S-04: Smart indkøbsliste fra ugeplanen",
+            summary: "Skalerer og samler ingredienser fra ugens middage + plads til løse ekstra-varer.",
+            detail: "Husker vores flueben i supermarkedet, selv når ugeplanen opdateres."
+          },
+          {
+            date: "I gang nu",
+            status: "active",
+            pill: "Næste lille skridt",
+            title: "S-05: Madlavning i køkkenet",
+            summary: "Tryk direkte på aftenens ret i ugeplanen for at åbne opskriften og følge trinene på telefon eller tablet.",
+            detail: "Designet er klar — kræver blot ét link fra ugeplanen til opskriftssiden."
+          },
+          {
+            date: "Sidste trin før brug",
+            status: "todo",
+            pill: "Mangler",
+            title: "S-06 & Lancering: Klar på vores egne telefoner",
+            summary: "Udrulning til Azure og fælles prøvetur fra madplan til indkøb og madlavning.",
+            detail: "Én af os planlægger en uge; den anden åbner indkøbslisten og opskriften fra sin egen telefon."
+          }
+        ],
+        future: [
+          "🛒 Eksport til Google Keep & stemmestyring ('Hey Google')",
+          "🤖 AI-hjælper (ChatGPT / Gemini) der kan foreslå og gemme opskrifter",
+          "⏱️ Trin-for-trin madlavningstilstand med indbyggede timere",
+          "🌍 Engelsk og islandsk sprogvalg samt næringsindhold"
+        ]
+      },
+      en: {
+        langBtn: "Dansk",
+        brandSub: "Household meal planning & shopping",
+        badge: "Updated 8 November 2026",
+        title: "Næring — Progress Barometer",
+        lead: "From the early Madseddel prototype to our real household web app. Here is what we have built and verified so far, and the final two steps before we can use it together on phone and tablet.",
+        meterKicker: "FIRST RELEASE (MVP) STATUS",
+        meterHeadline: "5 of 6 product slices complete (83 %)",
+        legendDone: "Completed & verified (5)",
+        legendActive: "In progress today (1)",
+        legendTodo: "Final step before launch (1)",
+        stat1Label: "Just Completed",
+        stat1Value: "S-04 Smart Shopping List",
+        stat2Label: "In Progress Now",
+        stat2Value: "S-05 Open recipe from plan",
+        stat3Label: "Quality Verification",
+        stat3Value: "65 automated tests passing",
+        timelineHeading: "Timeline: Completed Milestones & What's Left",
+        timelineSub: "Every slice is verified with two separate adult logins at phone and tablet viewport widths.",
+        futureHeading: "Saved for Follow-on Releases (Post-MVP)",
+        futureSub: "We kept the first release focused so we can use it right away. Planned for later:",
+        steps: [
+          {
+            date: "5 Nov 2026",
+            status: "done",
+            pill: "Done",
+            title: "0. Foundation: Encrypted Cloud Database (Azure SQL)",
+            summary: "Cloud database provisioned with Bicep and encrypted Entra authentication.",
+            detail: "Ensures all recipes, weekly plans, and shopping lists persist safely across devices."
+          },
+          {
+            date: "6–7 Nov 2026",
+            status: "done",
+            pill: "Done",
+            title: "S-01: Shared Household & Private Sign-In",
+            summary: "Two adults sign in separately with email one-time codes and share one household.",
+            detail: "Outsiders cannot view or modify our household data even with a direct URL."
+          },
+          {
+            date: "7 Nov 2026",
+            status: "done",
+            pill: "Done",
+            title: "S-02: Starter & Household Recipes",
+            summary: "Browse starter recipes and create our own household recipes with quantities and steps.",
+            detail: "New recipes saved by either adult are immediately visible to both."
+          },
+          {
+            date: "7 Nov 2026",
+            status: "done",
+            pill: "Done",
+            title: "S-03: Weekly Dinner Plan (Monday–Sunday)",
+            summary: "Pick any week, assign dinners to each day, and adjust serving counts.",
+            detail: "Both adults see and edit the same shared weekly plan."
+          },
+          {
+            date: "8 Nov 2026",
+            status: "done",
+            pill: "Done today!",
+            title: "S-04: Smart Weekly Shopping List",
+            summary: "Scales and combines matching ingredients across the week's dinners + manual items.",
+            detail: "Preserves check marks when regenerating unchanged ingredients."
+          },
+          {
+            date: "In Progress Now",
+            status: "active",
+            pill: "Up Next",
+            title: "S-05: Cooking View from the Weekly Plan",
+            summary: "Tap any planned dinner in the weekly plan to open its recipe and follow the steps in the kitchen.",
+            detail: "Spec drafted — links the saved dinner title to the existing recipe detail view."
+          },
+          {
+            date: "Final Step",
+            status: "todo",
+            pill: "Remaining",
+            title: "S-06 & Hosted Release: Live on Our Phones",
+            summary: "Deploy Næring to Azure App Service and run our full household release check.",
+            detail: "One adult plans a week; the other shops and opens the recipe on their phone."
+          }
+        ],
+        future: [
+          "🛒 One-way Google Keep export & voice ('Hey Google')",
+          "🤖 AI assistant (ChatGPT / Gemini MCP) recipe creation",
+          "⏱️ Guided step-by-step cooking mode with timers",
+          "🌍 English and Icelandic content & nutrition info"
+        ]
+      }
+    };
+
+    let currentLang = "da";
+
+    function applyLanguage() {
+      const dict = I18N[currentLang];
+      document.documentElement.lang = currentLang;
+      const langBtn = document.getElementById("lang-btn");
+      if (langBtn) langBtn.textContent = dict.langBtn;
+
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const k = el.getAttribute("data-i18n");
+        if (dict[k]) el.textContent = dict[k];
+      });
+
+      const listEl = document.getElementById("timeline-list");
+      if (listEl) {
+        listEl.innerHTML = "";
+        dict.steps.forEach((s, i) => {
+          const li = document.createElement("li");
+          li.className = "step " + s.status;
+          const marker = s.status === "done" ? "✓" : s.status === "active" ? "→" : (i + 1);
+          li.innerHTML = `
+            <div class="step-marker" aria-hidden="true">${marker}</div>
+            <div class="step-body">
+              <div class="step-meta">
+                <span>${s.date}</span>
+                <span class="pill ${s.status}">${s.pill}</span>
+              </div>
+              <h3>${s.title}</h3>
+              <p>${s.summary}</p>
+              <p class="step-detail">${s.detail}</p>
+            </div>
+          `;
+          listEl.appendChild(li);
+        });
+      }
+
+      const futureEl = document.getElementById("future-list");
+      if (futureEl) {
+        futureEl.innerHTML = "";
+        dict.future.forEach((item) => {
+          const d = document.createElement("div");
+          d.className = "future-item";
+          d.textContent = item;
+          futureEl.appendChild(d);
+        });
+      }
+    }
+
+    function b64ToBytes(b64) {
+      const bin = atob(b64);
+      const arr = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+      return arr;
+    }
+
+    async function tryUnlock(code) {
+      try {
+        const normalized = (code || "").trim().toLowerCase();
+        if (!normalized) return false;
+        const enc = new TextEncoder();
+        const keyMaterial = await crypto.subtle.importKey(
+          "raw", enc.encode(normalized), { name: "PBKDF2" }, false, ["deriveKey"]
+        );
+        const key = await crypto.subtle.deriveKey(
+          { name: "PBKDF2", salt: b64ToBytes(SALT), iterations: 100000, hash: "SHA-256" },
+          keyMaterial,
+          { name: "AES-GCM", length: 256 },
+          false,
+          ["decrypt"]
+        );
+        const decrypted = await crypto.subtle.decrypt(
+          { name: "AES-GCM", iv: b64ToBytes(IV) },
+          key,
+          b64ToBytes(CIPHERTEXT)
+        );
+        const html = new TextDecoder().decode(decrypted);
+        document.getElementById("gate").hidden = true;
+        const app = document.getElementById("app");
+        app.innerHTML = html;
+        app.hidden = false;
+        document.getElementById("lang-btn").addEventListener("click", () => {
+          currentLang = currentLang === "da" ? "en" : "da";
+          applyLanguage();
+        });
+        applyLanguage();
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+    const initialCode = params.get("code") || hashParams.get("code");
+    if (initialCode) {
+      tryUnlock(initialCode).then((ok) => {
+        if (!ok) document.getElementById("error-msg").hidden = false;
+      });
+    }
+
+    document.getElementById("unlock-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const ok = await tryUnlock(document.getElementById("code-input").value);
+      document.getElementById("error-msg").hidden = !ok;
+    });
+  </script>
+</body>
+</html>
