@@ -15,7 +15,7 @@
     * { box-sizing: border-box; }
     body { margin: 0; }
     main {
-      max-width: 46rem;
+      max-width: 48rem;
       margin: 0 auto;
       padding: clamp(1.25rem, 5vw, 3rem);
     }
@@ -68,7 +68,7 @@
     .lang-btn:hover { background: #ebe5d8; }
     h1 { line-height: 1.15; margin: 0.6rem 0 0.75rem; font-size: clamp(1.65rem, 4.2vw, 2.25rem); }
     h2 { font-size: 1.3rem; margin: 2.25rem 0 0.35rem; color: #23342a; }
-    h3 { font-size: 1.05rem; margin: 0.25rem 0 0.35rem; }
+    h3 { font-size: 1.03rem; margin: 0.25rem 0 0.35rem; }
     .lead { color: #3d4f44; margin: 0 0 1.5rem; font-size: 1.02rem; }
     .section-sub { color: #5c6d62; font-size: 0.9rem; margin: 0 0 1.1rem; }
     .badge {
@@ -89,13 +89,45 @@
       border-radius: 50%;
       background: #234b37;
     }
-    .meter-card, .gate-card, .future {
+    .meter-card, .gate-card, .future, .alert-box {
       background: #fffdf9;
       border: 1px solid #d8d1c5;
       border-radius: 0.75rem;
       padding: clamp(1.1rem, 3.5vw, 1.5rem);
       box-shadow: 0 2px 8px rgba(35, 52, 42, 0.05);
     }
+    .alert-box {
+      margin-top: 1.75rem;
+      border-left: 4px solid #b7791f;
+      background: #fffcf5;
+    }
+    .alert-box h2 { margin-top: 0; }
+    .issues-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+      gap: 0.8rem;
+    }
+    .issue-card {
+      background: #fffdf9;
+      border: 1px solid #e6dcc8;
+      border-radius: 0.6rem;
+      padding: 0.9rem 1rem;
+    }
+    .issue-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.12rem 0.5rem;
+      border-radius: 999px;
+      margin-bottom: 0.35rem;
+    }
+    .issue-tag.gate { background: #fef3c7; color: #92400e; }
+    .issue-tag.polish { background: #e0f2fe; color: #075985; }
+    .issue-tag.note { background: #f3e8ff; color: #6b21a8; }
+    .issue-card h3 { margin: 0.1rem 0 0.3rem; font-size: 0.98rem; }
+    .issue-card p { margin: 0; font-size: 0.87rem; color: #3d4f44; }
     .meter-header {
       display: flex;
       flex-wrap: wrap;
@@ -111,7 +143,7 @@
       color: #5c6d62;
     }
     .meter-headline {
-      font-size: 1.25rem;
+      font-size: 1.18rem;
       color: #234b37;
     }
     .pct-pill {
@@ -124,8 +156,8 @@
     }
     .meter-track {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 0.35rem;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 0.3rem;
       height: 0.95rem;
     }
     .seg { border-radius: 0.25rem; background: #e3ddd2; }
@@ -165,7 +197,8 @@
       padding: 0.75rem 0.9rem;
     }
     .stat-label { font-size: 0.78rem; color: #5c6d62; }
-    .stat-value { font-size: 0.95rem; font-weight: 700; color: #23342a; margin-top: 0.15rem; }
+    .stat-value { font-size: 0.94rem; font-weight: 700; color: #23342a; margin-top: 0.15rem; }
+    .stat-value.done-text { color: #234b37; }
     .stat-value.active-text { color: #92400e; }
     .timeline {
       position: relative;
@@ -295,31 +328,60 @@
     <div id="app" hidden></div>
   </main>
   <script>
-    const SALT = "4gMkf4Ip80Ce4YzQbdCgQQ==";
-    const IV = "QQeIyW3F5VJcqniu";
-    const CIPHERTEXT = "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";
+    const SALT = "xNWZrSw1iGerzidITFeTow==";
+    const IV = "7DZhlULHanJmXf/y";
+    const CIPHERTEXT = "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";
 
     const I18N = {
       da: {
         langBtn: "English",
         brandSub: "Husstandens madplan & indkøb",
-        badge: "Opdateret 8. november 2026 kl. 13:20",
+        badge: "Opdateret 8. november 2026 kl. 18:20",
         title: "Næring — Fremdriftsbarometer",
-        lead: "Fra den tidlige Madseddel-prototype til vores rigtige husstands-app. Alle selve funktionerne i første udgave er nu færdigbygget og godkendt! Nu mangler kun selve udrulningen til skyen, så vi kan åbne den på vores egne telefoner.",
-        meterKicker: "STATUS PÅ FØRSTE UDGAVE (MVP)",
-        meterHeadline: "Alle 5 funktioner er bygget! Kun lancering mangler (86 %)",
-        legendDone: "Færdig & godkendt (6)",
-        legendActive: "Sidste trin: Lancering i skyen (1)",
-        stat1Label: "Netop færdiggjort",
-        stat1Value: "S-05 Madlavning fra ugeplan",
-        stat2Label: "Næste & sidste skridt",
-        stat2Value: "S-06 Læg på nettet til vores telefoner",
-        stat3Label: "Kvalitetssikring",
-        stat3Value: "65 automatiske tests + live login bestået",
-        timelineHeading: "Tidslinje: Hvad vi har nået & sidste skridt",
-        timelineSub: "Hvert trin er testet med to separate voksen-logins på både telefon- og tablet-skærmstørrelse.",
-        futureHeading: "Gemt til næste runde (efter vi har taget appen i brug)",
-        futureSub: "Vi holder første udgave enkel, så vi hurtigt kan få glæde af den i hverdagen. Disse ønsker venter til bagefter:",
+        lead: "Første udgave (MVP) er nu bygget, lagt i skyen på Azure og bestået! Under testen fandt vi dog vigtige ting — især islandsk/engelsk sprog, skift mellem flere husstande og et visuelt løft — som vi bygger færdigt, før vi inviterer familien ind for at teste.",
+        meterKicker: "SAMLET FREMSKRIDT FØR FAMILIE-TEST",
+        meterHeadline: "7 af 10 milepæle færdige — Kerne-app i luften, 3 forbedringer før familie-invitation",
+        legendDone: "Færdig & i luften (7)",
+        legendActive: "I gang nu før familie-test (1)",
+        legendTodo: "Næste forbedringer før familie-test (2)",
+        stat1Label: "Fase 1: Kerne-MVP i skyen",
+        stat1Value: "✓ 7 af 7 trin bestået på Azure",
+        stat2Label: "Fase 2: Før svigerfamilien inviteres",
+        stat2Value: "Islandsk/Engelsk + Flere husstande",
+        stat3Label: "Pilot-evaluering sat til",
+        stat3Value: "8. december 2026",
+        issuesHeading: "Hvad vi fandt i dag — og vil have med før andre tester",
+        issuesSub: "Selvom grundfunktionerne virker i skyen nu, venter vi med at lukke familien ind, til disse punkter er på plads:",
+        timelineHeading: "Tidslinje: Fra idé til familie-pilot",
+        timelineSub: "Trin 0–6 er færdige og kører i skyen. Trin 7–9 er vores nye tjekliste før familie-testen.",
+        futureHeading: "Gemt til senere (efter familie-piloten)",
+        futureSub: "Disse idéer ligger fortsat i idébanken til efter 8. december:",
+        issues: [
+          {
+            tagClass: "gate",
+            tag: "Krav før familie-invitation",
+            title: "1. Dansk, Islandsk & Engelsk brugerflade",
+            desc: "Sprogvælger på forsiden og i appen, så svigerfamilien kan bruge Næring på islandsk eller engelsk. Valla gennemgår og godkender de islandske tekster på telefonen."
+          },
+          {
+            tagClass: "gate",
+            tag: "Krav før familie-invitation",
+            title: "2. Skift mellem to husstande på samme login",
+            desc: "Lige nu er ét login låst til én husstand. Vi åbner for, at en voksen kan være med i to husstande og skifte sikkert mellem dem uden at blande data."
+          },
+          {
+            tagClass: "polish",
+            tag: "Næste forbedring",
+            title: "3. Visuelt løft tilbage mod den første prototype",
+            desc: "Når funktionaliteten er på plads, løfter vi farver, typografi, luft og navigation, så appen får samme varme udtryk som det første mockup."
+          },
+          {
+            tagClass: "note",
+            tag: "Observeret i skyen (følges til 8. dec.)",
+            title: "4. Gratis database går i dvale efter 60 min.",
+            desc: "Når ingen har brugt appen i en time, sover den gratis SQL-database og bruger ~1 minut på at vågne ved første klik. Vi holder øje med det i pilotperioden."
+          }
+        ],
         steps: [
           {
             date: "5. nov 2026",
@@ -335,7 +397,7 @@
             pill: "Færdig",
             title: "S-01: Vores fælles husstand & privat login",
             summary: "Vi logger ind hver for sig med engangskode på e-mail og deler automatisk samme husstand.",
-            detail: "Kun vi to har adgang — ingen udefrakommende kan se eller ændre vores madplan eller opskrifter."
+            detail: "Kun husstandens medlemmer har adgang — ingen udefrakommende kan læse eller ændre vores ting."
           },
           {
             date: "7. nov 2026",
@@ -356,7 +418,7 @@
           {
             date: "8. nov 2026",
             status: "done",
-            pill: "Færdig i dag!",
+            pill: "Færdig",
             title: "S-04: Smart indkøbsliste fra ugeplanen",
             summary: "Skalerer og samler ingredienser fra ugens middage + plads til løse ekstra-varer.",
             detail: "Husker vores flueben i supermarkedet, selv når ugeplanen opdateres."
@@ -364,47 +426,100 @@
           {
             date: "8. nov 2026",
             status: "done",
-            pill: "Færdig lige nu!",
+            pill: "Færdig",
             title: "S-05: Madlavning i køkkenet",
             summary: "Tryk direkte på aftenens ret i ugeplanen for at åbne opskriften og følge trinene på telefon eller tablet.",
-            detail: "Godkendt på både telefon- og tablet-størrelse med begge voksen-logins og flettet ind i hovedkoden (PR #6)."
+            detail: "Godkendt på både telefon- og tablet-størrelse og flettet ind i hovedkoden (PR #6)."
           },
           {
-            date: "Sidste trin før brug",
+            date: "8. nov 2026",
+            status: "done",
+            pill: "I luften i dag!",
+            title: "S-06 & Lancering: Første udgave lagt i skyen på Azure",
+            summary: "Næring kører nu live på Azure App Service og har bestået hele husstands- og sikkerhedstesten (PR #8).",
+            detail: "Begge voksne gennemførte opskrift → ugeplan → indkøbsliste → madlavning i skyen, og adgang fra en anden husstand blev afvist."
+          },
+          {
+            date: "Planlagt nu (Før familie-test)",
             status: "active",
-            pill: "Næste & sidste skridt",
-            title: "S-06 & Lancering: Klar på vores egne telefoner i skyen",
-            summary: "Vi lægger Næring ud på dens rigtige internetadresse på Azure og tager en fælles prøvetur.",
-            detail: "Én af os planlægger en uge; den anden åbner indkøbslisten og opskriften fra sin egen telefon."
+            pill: "I gang nu",
+            title: "7. Dansk, Islandsk (Íslenska) & Engelsk sprogvalg",
+            summary: "Sprogvælger på velkomstskærmen og i appen, så familien kan bruge den på islandsk, engelsk eller dansk.",
+            detail: "Valla gennemgår de islandske oversættelser og tester flowet på telefonen før vi inviterer svigerfamilien."
+          },
+          {
+            date: "Næste trin (Før familie-test)",
+            status: "todo",
+            pill: "Krav før invitation",
+            title: "8. Skift mellem to private husstande",
+            summary: "Mulighed for at én voksen kan være tilknyttet to husstande og skifte sikkert mellem dem (også i separate faner).",
+            detail: "Gør det muligt at hjælpe eller teste på tværs af to husstande uden at gå på kompromis med privatlivet."
+          },
+          {
+            date: "Efter sprog & husstandsskift",
+            status: "todo",
+            pill: "Planlagt",
+            title: "9. Visuelt løft fra den første prototype",
+            summary: "Opfriskning af layout, typografi, farver og luft ud fra det første Næring/Madseddel-mockup.",
+            detail: "Gennemgås på telefon og tablet på tværs af opskrifter, ugeplan, indkøb og madlavning på alle tre sprog."
           }
         ],
         future: [
+          "⏳ Automatisk opvarmning af SQL-databasen efter hvilepause (evalueres 8. dec.)",
           "🛒 Eksport til Google Keep & stemmestyring ('Hey Google')",
           "🤖 AI-hjælper (ChatGPT / Gemini) der kan foreslå og gemme opskrifter",
-          "⏱️ Trin-for-trin madlavningstilstand med indbyggede timere",
-          "🌍 Engelsk og islandsk sprogvalg samt næringsindhold"
+          "⏱️ Trin-for-trin madlavningstilstand med indbyggede timere & næringsindhold"
         ]
       },
       en: {
         langBtn: "Dansk",
         brandSub: "Household meal planning & shopping",
-        badge: "Updated 8 November 2026, 13:20",
+        badge: "Updated 8 November 2026, 18:20",
         title: "Næring — Progress Barometer",
-        lead: "From the early Madseddel prototype to our real household web app. All 5 product features for the first release are now built, tested, and merged! Only the final cloud deployment remains so we can open it on our own phones.",
-        meterKicker: "FIRST RELEASE (MVP) STATUS",
-        meterHeadline: "All 5 product slices complete! Only cloud launch left (86 %)",
-        legendDone: "Completed & verified (6)",
-        legendActive: "Final step: Cloud launch & release check (1)",
-        stat1Label: "Just Completed",
-        stat1Value: "S-05 Cooking View (PR #6)",
-        stat2Label: "Next & Final Step",
-        stat2Value: "S-06 Hosted Azure Release",
-        stat3Label: "Quality Verification",
-        stat3Value: "65 automated tests + live Entra passed",
-        timelineHeading: "Timeline: Completed Milestones & Final Step",
-        timelineSub: "Every slice is verified with two separate adult logins at phone and tablet viewport widths.",
-        futureHeading: "Saved for Follow-on Releases (Post-MVP)",
-        futureSub: "We kept the first release focused so we can use it right away. Planned for later:",
+        lead: "The initial MVP is now built, deployed to Azure, and verified end-to-end! During today's live testing we identified three key improvements — Icelandic/English support, multi-household switching, and a visual refresh — that we want to include before inviting extended family to test.",
+        meterKicker: "OVERALL PROGRESS BEFORE FAMILY INVITATIONS",
+        meterHeadline: "7 of 10 milestones complete — Core MVP live on Azure, 3 enhancements before family test",
+        legendDone: "Completed & live (7)",
+        legendActive: "In progress before family test (1)",
+        legendTodo: "Next up before family test (2)",
+        stat1Label: "Phase 1: Core MVP on Azure",
+        stat1Value: "✓ 7 of 7 steps passed in cloud",
+        stat2Label: "Phase 2: Before inviting in-laws",
+        stat2Value: "Icelandic/English + Household switch",
+        stat3Label: "Family Pilot Review Date",
+        stat3Value: "8 December 2026",
+        issuesHeading: "What We Found Today — Included Before Others Test",
+        issuesSub: "While the core app works live in the cloud now, we are completing these items before inviting family testers:",
+        timelineHeading: "Timeline: From Concept to Family Pilot",
+        timelineSub: "Steps 0–6 are complete and running on Azure. Steps 7–9 form our pre-invitation backlog.",
+        futureHeading: "Saved for Later (Post-Pilot)",
+        futureSub: "Tracked for the 8 December pilot review and follow-on releases:",
+        issues: [
+          {
+            tagClass: "gate",
+            tag: "Required before family invite",
+            title: "1. Danish, Icelandic & English Interface",
+            desc: "Language picker on the welcome screen and in-app so family can use Næring in Icelandic, English, or Danish. Includes Valla's native review of the Icelandic wording on phone."
+          },
+          {
+            tagClass: "gate",
+            tag: "Required before family invite",
+            title: "2. Private Household Switching",
+            desc: "Currently one login belongs to a single household. We are adding support for one adult to belong to and switch safely between two separate households."
+          },
+          {
+            tagClass: "polish",
+            tag: "Next in backlog",
+            title: "3. Visual Refresh from the First Mockup",
+            desc: "Bring back the warmer layout, typography, spacing, and color polish from the original prototype across recipes, weekly plan, shopping, and cooking."
+          },
+          {
+            tagClass: "note",
+            tag: "Cloud observation (Review 8 Dec)",
+            title: "4. Free SQL Database Idle Warm-up",
+            desc: "After 60 minutes of inactivity, the free Azure SQL database pauses and takes ~1 minute + a reload on the first visit to wake up."
+          }
+        ],
         steps: [
           {
             date: "5 Nov 2026",
@@ -420,7 +535,7 @@
             pill: "Done",
             title: "S-01: Shared Household & Private Sign-In",
             summary: "Two adults sign in separately with email one-time codes and share one household.",
-            detail: "Outsiders cannot view or modify our household data even with a direct URL."
+            detail: "Outsiders cannot view or modify household data even with a direct URL."
           },
           {
             date: "7 Nov 2026",
@@ -441,7 +556,7 @@
           {
             date: "8 Nov 2026",
             status: "done",
-            pill: "Done today!",
+            pill: "Done",
             title: "S-04: Smart Weekly Shopping List",
             summary: "Scales and combines matching ingredients across the week's dinners + manual items.",
             detail: "Preserves check marks when regenerating unchanged ingredients."
@@ -449,25 +564,49 @@
           {
             date: "8 Nov 2026",
             status: "done",
-            pill: "Just finished!",
+            pill: "Done",
             title: "S-05: Cooking View from the Weekly Plan",
             summary: "Tap any planned dinner in the weekly plan to open its recipe and follow the steps in the kitchen.",
             detail: "Verified at phone and tablet widths with both live Entra adult accounts and merged in PR #6."
           },
           {
-            date: "Final Step",
+            date: "8 Nov 2026",
+            status: "done",
+            pill: "Live today!",
+            title: "S-06 & Hosted Release: Deployed & Verified on Azure",
+            summary: "Næring is running on Azure App Service (Free F1) and passed the two-adult loop and cross-household isolation checks (PR #8).",
+            detail: "Verified encrypted managed-identity SQL access, mobile/tablet layouts, and second-household denial."
+          },
+          {
+            date: "In Planning Now (Pre-Invite Gate)",
             status: "active",
-            pill: "Up Next",
-            title: "S-06 & Hosted Release: Live on Our Phones",
-            summary: "Deploy Næring to Azure App Service and run our full household release check.",
-            detail: "One adult plans a week; the other shops and opens the recipe on their phone."
+            pill: "In Progress",
+            title: "7. Danish, Icelandic & English Interface",
+            summary: "Language selector on the welcome screen and inside the app, remembering the browser's choice.",
+            detail: "Includes Valla's native-speaker review of the Icelandic text and a hosted phone walkthrough."
+          },
+          {
+            date: "Up Next (Pre-Invite Gate)",
+            status: "todo",
+            pill: "Required before invite",
+            title: "8. Private Household Switching",
+            summary: "Allow an adult account to belong to two households and switch between them safely across tabs.",
+            detail: "Server verifies membership on every request while keeping each household's recipes and plans isolated."
+          },
+          {
+            date: "Following Invitations Gate",
+            status: "todo",
+            pill: "Planned",
+            title: "9. Visual Refresh from the First Vibe Mockup",
+            summary: "Refresh layout, colors, typography, and spacing against the original mockup.",
+            detail: "Verified across recipes, weekly plan, shopping, and cooking in all three languages on phone and tablet."
           }
         ],
         future: [
+          "⏳ SQL idle warm-up handling from paused state (tracked for 8 Dec pilot review)",
           "🛒 One-way Google Keep export & voice ('Hey Google')",
           "🤖 AI assistant (ChatGPT / Gemini MCP) recipe creation",
-          "⏱️ Guided step-by-step cooking mode with timers",
-          "🌍 English and Icelandic content & nutrition info"
+          "⏱️ Guided step-by-step cooking mode with timers & nutrition info"
         ]
       }
     };
@@ -485,13 +624,28 @@
         if (dict[k]) el.textContent = dict[k];
       });
 
+      const issuesEl = document.getElementById("issues-list");
+      if (issuesEl) {
+        issuesEl.innerHTML = "";
+        dict.issues.forEach((iss) => {
+          const card = document.createElement("div");
+          card.className = "issue-card";
+          card.innerHTML = `
+            <span class="issue-tag ${iss.tagClass}">${iss.tag}</span>
+            <h3>${iss.title}</h3>
+            <p>${iss.desc}</p>
+          `;
+          issuesEl.appendChild(card);
+        });
+      }
+
       const listEl = document.getElementById("timeline-list");
       if (listEl) {
         listEl.innerHTML = "";
         dict.steps.forEach((s, i) => {
           const li = document.createElement("li");
           li.className = "step " + s.status;
-          const marker = s.status === "done" ? "✓" : s.status === "active" ? "→" : (i + 1);
+          const marker = s.status === "done" ? "✓" : s.status === "active" ? "→" : i;
           li.innerHTML = `
             <div class="step-marker" aria-hidden="true">${marker}</div>
             <div class="step-body">
