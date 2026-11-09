@@ -96,10 +96,28 @@
       padding: clamp(1.1rem, 3.5vw, 1.5rem);
       box-shadow: 0 2px 8px rgba(35, 52, 42, 0.05);
     }
+    .pilot-cta {
+      margin-top: 1rem;
+      padding: 0.95rem 1.1rem;
+      border-radius: 0.6rem;
+      background: #eef5f0;
+      border: 1px solid #c3d9ca;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+    }
+    .cta-sub {
+      font-size: 0.84rem;
+      color: #3d4f44;
+      margin-top: 0.15rem;
+      max-width: 30rem;
+    }
     .alert-box {
       margin-top: 1.75rem;
-      border-left: 4px solid #b7791f;
-      background: #fffcf5;
+      border-left: 4px solid #234b37;
+      background: #fffdf9;
     }
     .alert-box h2 { margin-top: 0; }
     .issues-grid {
@@ -108,8 +126,8 @@
       gap: 0.8rem;
     }
     .issue-card {
-      background: #fffdf9;
-      border: 1px solid #e6dcc8;
+      background: #f8f5ee;
+      border: 1px solid #e3ddd2;
       border-radius: 0.6rem;
       padding: 0.9rem 1rem;
     }
@@ -123,6 +141,7 @@
       border-radius: 999px;
       margin-bottom: 0.35rem;
     }
+    .issue-tag.live { background: #dce8e0; color: #234b37; }
     .issue-tag.gate { background: #fef3c7; color: #92400e; }
     .issue-tag.polish { background: #e0f2fe; color: #075985; }
     .issue-tag.note { background: #f3e8ff; color: #6b21a8; }
@@ -283,7 +302,9 @@
       color: white;
       font: inherit;
       font-weight: 600;
+      text-decoration: none;
       cursor: pointer;
+      white-space: nowrap;
     }
     .unlock-row {
       display: flex;
@@ -328,50 +349,53 @@
     <div id="app" hidden></div>
   </main>
   <script>
-    const SALT = "xNWZrSw1iGerzidITFeTow==";
-    const IV = "7DZhlULHanJmXf/y";
-    const CIPHERTEXT = "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";
+    const SALT = "0v7ZWO42XUEd8RmraRKDQw==";
+    const IV = "3TyfQ/RDQrauCKSL";
+    const CIPHERTEXT = "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";
 
     const I18N = {
       da: {
         langBtn: "English",
         brandSub: "Husstandens madplan & indkøb",
-        badge: "Opdateret 8. november 2026 kl. 18:20",
+        badge: "Opdateret 9. november 2026 kl. 08:15",
         title: "Næring — Fremdriftsbarometer",
-        lead: "Første udgave (MVP) er nu bygget, lagt i skyen på Azure og bestået! Under testen fandt vi dog vigtige ting — især islandsk/engelsk sprog, skift mellem flere husstande og et visuelt løft — som vi bygger færdigt, før vi inviterer familien ind for at teste.",
+        lead: "Kerne-appen OG den nye sprogvælger (Dansk, Íslenska & English) er nu bygget og lagt live ud i skyen på Azure! Nu er den klar til, at Valla kan prøve den islandske udgave på telefonen og rette eventuelle sproglige detaljer, mens vi gør husstandsskift klar før familie-invitationen.",
         meterKicker: "SAMLET FREMSKRIDT FØR FAMILIE-TEST",
-        meterHeadline: "7 af 10 milepæle færdige — Kerne-app i luften, 3 forbedringer før familie-invitation",
-        legendDone: "Færdig & i luften (7)",
-        legendActive: "I gang nu før familie-test (1)",
-        legendTodo: "Næste forbedringer før familie-test (2)",
-        stat1Label: "Fase 1: Kerne-MVP i skyen",
-        stat1Value: "✓ 7 af 7 trin bestået på Azure",
-        stat2Label: "Fase 2: Før svigerfamilien inviteres",
-        stat2Value: "Islandsk/Engelsk + Flere husstande",
-        stat3Label: "Pilot-evaluering sat til",
-        stat3Value: "8. december 2026",
-        issuesHeading: "Hvad vi fandt i dag — og vil have med før andre tester",
-        issuesSub: "Selvom grundfunktionerne virker i skyen nu, venter vi med at lukke familien ind, til disse punkter er på plads:",
+        meterHeadline: "8 af 10 milepæle bygget & i skyen — Islandsk er live og klar til Vallas tjek!",
+        legendDone: "Færdig & bestået (7)",
+        legendActive: "Live i skyen — klar til Vallas tjek på telefon (1)",
+        legendTodo: "Næste forbedringer (2)",
+        stat1Label: "Netop lagt i skyen (PR #9)",
+        stat1Value: "✓ Dansk, Íslenska & English live!",
+        stat2Label: "Klar til gennemgang nu",
+        stat2Value: "Vallas tjek af islandsk på telefon",
+        stat3Label: "Kvalitetssikring",
+        stat3Value: "71 automatiske tests + live login bestået",
+        ctaTitle: "Prøv Næring på Islandsk i skyen nu:",
+        ctaSub: "Vælg 'Íslenska' på velkomstskærmen før login. Engangskoden sendes på e-mail (på engelsk), og appen åbner på islandsk.",
+        ctaBtn: "Åbn Næring Pilot-app ↗",
+        issuesHeading: "Status på tjeklisten før vi inviterer familien",
+        issuesSub: "Så langt er vi med de punkter, vi besluttede at få med inden svigerfamilien inviteres:",
         timelineHeading: "Tidslinje: Fra idé til familie-pilot",
-        timelineSub: "Trin 0–6 er færdige og kører i skyen. Trin 7–9 er vores nye tjekliste før familie-testen.",
+        timelineSub: "Trin 0–6 er helt færdige, og Trin 7 (Islandsk/Engelsk/Dansk) er nu bygget og lagt på Azure.",
         futureHeading: "Gemt til senere (efter familie-piloten)",
         futureSub: "Disse idéer ligger fortsat i idébanken til efter 8. december:",
         issues: [
           {
-            tagClass: "gate",
-            tag: "Krav før familie-invitation",
+            tagClass: "live",
+            tag: "Bygget & live i skyen nu! (Mangler Vallas tjek)",
             title: "1. Dansk, Islandsk & Engelsk brugerflade",
-            desc: "Sprogvælger på forsiden og i appen, så svigerfamilien kan bruge Næring på islandsk eller engelsk. Valla gennemgår og godkender de islandske tekster på telefonen."
+            desc: "Sprogvælger, datoer, tal og islandsk login-flow kører nu på Azure (PR #9). Klar til at Valla kan prøve appen på telefonen og godkende de islandske formuleringer."
           },
           {
             tagClass: "gate",
-            tag: "Krav før familie-invitation",
+            tag: "Næste krav før familie-invitation",
             title: "2. Skift mellem to husstande på samme login",
-            desc: "Lige nu er ét login låst til én husstand. Vi åbner for, at en voksen kan være med i to husstande og skifte sikkert mellem dem uden at blande data."
+            desc: "Næste bygge-skridt: Gøre det muligt for én voksen at være med i to separate husstande og skifte sikkert mellem dem uden at blande data."
           },
           {
             tagClass: "polish",
-            tag: "Næste forbedring",
+            tag: "Efter husstandsskift",
             title: "3. Visuelt løft tilbage mod den første prototype",
             desc: "Når funktionaliteten er på plads, løfter vi farver, typografi, luft og navigation, så appen får samme varme udtryk som det første mockup."
           },
@@ -434,18 +458,18 @@
           {
             date: "8. nov 2026",
             status: "done",
-            pill: "I luften i dag!",
+            pill: "Færdig",
             title: "S-06 & Lancering: Første udgave lagt i skyen på Azure",
-            summary: "Næring kører nu live på Azure App Service og har bestået hele husstands- og sikkerhedstesten (PR #8).",
+            summary: "Næring kører live på Azure App Service og har bestået hele husstands- og sikkerhedstesten (PR #8).",
             detail: "Begge voksne gennemførte opskrift → ugeplan → indkøbsliste → madlavning i skyen, og adgang fra en anden husstand blev afvist."
           },
           {
-            date: "Planlagt nu (Før familie-test)",
+            date: "9. nov 2026 (Live nu!)",
             status: "active",
-            pill: "I gang nu",
+            pill: "Klar til Vallas tjek på telefon",
             title: "7. Dansk, Islandsk (Íslenska) & Engelsk sprogvalg",
-            summary: "Sprogvælger på velkomstskærmen og i appen, så familien kan bruge den på islandsk, engelsk eller dansk.",
-            detail: "Valla gennemgår de islandske oversættelser og tester flowet på telefonen før vi inviterer svigerfamilien."
+            summary: "Bygget, testet med 71 automatiske tests og lagt ud på Azure i morges (PR #9)! Islandsk login og retur til islandsk er bekræftet.",
+            detail: "Mangler nu kun Vallas gennemgang af de islandske tekster og en prøvetur gennem opskrift, ugeplan, indkøb og madlavning på telefonen."
           },
           {
             date: "Næste trin (Før familie-test)",
@@ -474,42 +498,45 @@
       en: {
         langBtn: "Dansk",
         brandSub: "Household meal planning & shopping",
-        badge: "Updated 8 November 2026, 18:20",
+        badge: "Updated 9 November 2026, 08:15",
         title: "Næring — Progress Barometer",
-        lead: "The initial MVP is now built, deployed to Azure, and verified end-to-end! During today's live testing we identified three key improvements — Icelandic/English support, multi-household switching, and a visual refresh — that we want to include before inviting extended family to test.",
+        lead: "The core app AND the new multilingual interface (Dansk, Íslenska & English) are now built, merged, and deployed live on Azure! It is ready for Valla to test the Icelandic experience on her phone and review the wording, while we prepare multi-household switching before inviting family.",
         meterKicker: "OVERALL PROGRESS BEFORE FAMILY INVITATIONS",
-        meterHeadline: "7 of 10 milestones complete — Core MVP live on Azure, 3 enhancements before family test",
-        legendDone: "Completed & live (7)",
-        legendActive: "In progress before family test (1)",
-        legendTodo: "Next up before family test (2)",
-        stat1Label: "Phase 1: Core MVP on Azure",
-        stat1Value: "✓ 7 of 7 steps passed in cloud",
-        stat2Label: "Phase 2: Before inviting in-laws",
-        stat2Value: "Icelandic/English + Household switch",
-        stat3Label: "Family Pilot Review Date",
-        stat3Value: "8 December 2026",
-        issuesHeading: "What We Found Today — Included Before Others Test",
-        issuesSub: "While the core app works live in the cloud now, we are completing these items before inviting family testers:",
+        meterHeadline: "8 of 10 milestones built & deployed — Icelandic is live on Azure and ready for Valla's review!",
+        legendDone: "Completed & verified (7)",
+        legendActive: "Live on Azure — ready for Valla's phone walkthrough (1)",
+        legendTodo: "Next enhancements (2)",
+        stat1Label: "Just Deployed to Azure (PR #9)",
+        stat1Value: "✓ Dansk, Íslenska & English live!",
+        stat2Label: "Ready for Review Now",
+        stat2Value: "Valla's Icelandic phone walkthrough",
+        stat3Label: "Quality Verification",
+        stat3Value: "71 automated tests + live sign-in passed",
+        ctaTitle: "Try Næring in Icelandic on Azure now:",
+        ctaSub: "Pick 'Íslenska' on the welcome screen before signing in. The one-time code email arrives in English and returns you to Næring in Icelandic.",
+        ctaBtn: "Open Næring Pilot App ↗",
+        issuesHeading: "Pre-Invitation Checklist Status",
+        issuesSub: "Here is where we stand on the items we chose to include before inviting the in-laws:",
         timelineHeading: "Timeline: From Concept to Family Pilot",
-        timelineSub: "Steps 0–6 are complete and running on Azure. Steps 7–9 form our pre-invitation backlog.",
+        timelineSub: "Steps 0–6 are complete, and Step 7 (Icelandic/English/Danish) is now deployed on Azure.",
         futureHeading: "Saved for Later (Post-Pilot)",
         futureSub: "Tracked for the 8 December pilot review and follow-on releases:",
         issues: [
           {
-            tagClass: "gate",
-            tag: "Required before family invite",
+            tagClass: "live",
+            tag: "Built & Live on Azure! (Awaiting Valla's review)",
             title: "1. Danish, Icelandic & English Interface",
-            desc: "Language picker on the welcome screen and in-app so family can use Næring in Icelandic, English, or Danish. Includes Valla's native review of the Icelandic wording on phone."
+            desc: "Language picker, localized dates/numbers, and Icelandic sign-in return are now live on Azure (PR #9). Ready for Valla's phone walkthrough and wording sign-off."
           },
           {
             tagClass: "gate",
-            tag: "Required before family invite",
+            tag: "Next requirement before family invite",
             title: "2. Private Household Switching",
-            desc: "Currently one login belongs to a single household. We are adding support for one adult to belong to and switch safely between two separate households."
+            desc: "Next build slice: Allow one adult account to belong to and switch safely between two separate households across tabs."
           },
           {
             tagClass: "polish",
-            tag: "Next in backlog",
+            tag: "Following household switching",
             title: "3. Visual Refresh from the First Mockup",
             desc: "Bring back the warmer layout, typography, spacing, and color polish from the original prototype across recipes, weekly plan, shopping, and cooking."
           },
@@ -572,18 +599,18 @@
           {
             date: "8 Nov 2026",
             status: "done",
-            pill: "Live today!",
+            pill: "Done",
             title: "S-06 & Hosted Release: Deployed & Verified on Azure",
             summary: "Næring is running on Azure App Service (Free F1) and passed the two-adult loop and cross-household isolation checks (PR #8).",
             detail: "Verified encrypted managed-identity SQL access, mobile/tablet layouts, and second-household denial."
           },
           {
-            date: "In Planning Now (Pre-Invite Gate)",
+            date: "9 Nov 2026 (Live on Azure!)",
             status: "active",
-            pill: "In Progress",
+            pill: "Ready for Valla's phone check",
             title: "7. Danish, Icelandic & English Interface",
-            summary: "Language selector on the welcome screen and inside the app, remembering the browser's choice.",
-            detail: "Includes Valla's native-speaker review of the Icelandic text and a hosted phone walkthrough."
+            summary: "Built, verified with 71 SQL-backed tests, merged in PR #9, and deployed to the live Azure pilot app this morning!",
+            detail: "Hosted Icelandic sign-in and email code return verified. Ready for Valla's Icelandic wording review and phone walkthrough."
           },
           {
             date: "Up Next (Pre-Invite Gate)",
@@ -645,7 +672,7 @@
         dict.steps.forEach((s, i) => {
           const li = document.createElement("li");
           li.className = "step " + s.status;
-          const marker = s.status === "done" ? "✓" : s.status === "active" ? "→" : i;
+          const marker = s.status === "done" ? "✓" : s.status === "active" ? "★" : i;
           li.innerHTML = `
             <div class="step-marker" aria-hidden="true">${marker}</div>
             <div class="step-body">
